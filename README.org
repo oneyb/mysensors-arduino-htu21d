@@ -1,0 +1,56 @@
+* A simple, inexpensive DIY temperature sensor
+A wireless, battery-powered thermo- and hygrometer based on the Arduino Mega2560 + HTU21D + MySensors + Platformio.
+  - *NOTE*: the Arduino Mega2560 is overkill for this application and consumes too much power for this setup.
+
+* Getting it working
+
+  - clone this repository and enter the directory
+  - get everything wired up
+  - install platformio and any possible dependencies
+    - consider this ansible playbook: https://github.com/oneyb/rpi-ap-ha/blob/master/install-platformio.yaml
+    - or make sure it works with the proper required packages
+      - ~virtualenv test && source test/bin/activate && pip install -r pip-requirements.txt~
+  - Compile and upload firmware (assuming you have the [[https://docs.platformio.org/en/latest/faq.html#faq-udev-rules][udev rules]] set up and a USB plugged in with an upload_port of ~/dev/ttyACM0~):
+    - ~pio run -t upload~
+  - Check the output of your sensor on you MySensors gateway+controller
+  - Be happy if it works. Accept the challenge if it doesn't ;).
+
+* Parts list
+
+  - Arduino Mega2560
+  - NRF24L01+ radio
+  - HTU21D
+  - Dupont cables, breadboard, soldering stuff, coffee
+
+* Wiring 
+This is just very simple but should tell you what needs to be hooked up where.
+| Pro Mini / Nano | 	Mega*  | 	Auxillary pin | Auxillary board           |
+|-----------------+----------+-----------------+---------------------------|
+| GND             | 	GND    | 	GND           | 	 NRF24L01+              |
+| RTFM!           | 	3.3V   | 	VCC           | 	NRF24L01+               |
+| 9               | 	49     | 	CE            | 	         NRF24L01+      |
+| 10              | 	53     | 	CSN/CS        | 	              NRF24L01+ |
+| 13              | 	52     | 	SCK           | 	              NRF24L01+ |
+| 11              | 	51     | 	MOSI          | 	              NRF24L01+ |
+| 12              | 	50     | 	MISO          | 	              NRF24L01+ |
+| 2               | 	2      | 	IRQ           | 	              NRF24L01+ |
+| A4              | 20 (SDA) | SDA             | HTU21D                    |
+| A5              | 21 (SCL) | SCL             | HTU21D                    |
+| 3.3V            | 3.3V     | 3.3V            | HTU21D                    |
+| GND             | 	GND    | 	GND           | 	 HTU21D                 |
+
+* Acknowledgements
+  - Arduino
+  - MySensors
+  - Platformio
+  - Sparkfun (HTU21D library)
+  - Tomas Hozza <thozza@gmail.com & Richard Clarke <richard.ns@clarke.biz> (HTU21D code)
+  - Further references in code
+  
+*If I missed something, thank you for the kind reminder.*
+* Planned improvements
+  - Decrease power consumption by employing an Arduino mini pro
+  - make Fritzing wiring diagram
+  - measure power usage
+  - have code recognize and adjust pin numbers according to board
+    
