@@ -1,6 +1,13 @@
 * A simple, inexpensive DIY temperature sensor
 A wireless, battery-powered thermo- and hygrometer based on the Arduino Mega2560 + HTU21D + MySensors + Platformio.
   - *NOTE*: the Arduino Mega2560 is overkill for this application and consumes too much power for this setup.
+ 
+This is what it could look like on your [[https://www.home-assistant.io/][hassbian (Home Assistant)]] [[https://www.mysensors.org/build/raspberry][controller]].
+[[file:img/setup.jpg]]
+
+See:
+  - https://www.mysensors.org/build/raspberry
+  - https://www.home-assistant.io/docs/installation/hassbian/installation/
 
 * Getting it working
 
@@ -23,21 +30,21 @@ A wireless, battery-powered thermo- and hygrometer based on the Arduino Mega2560
   - Dupont cables, breadboard, soldering stuff, coffee
 
 * Wiring 
-This is just very simple but should tell you what needs to be hooked up where.
-| Pro Mini / Nano | 	Mega*  | 	Auxillary pin | Auxillary board           |
-|-----------------+----------+-----------------+---------------------------|
-| GND             | 	GND    | 	GND           | 	 NRF24L01+              |
-| RTFM!           | 	3.3V   | 	VCC           | 	NRF24L01+               |
-| 9               | 	49     | 	CE            | 	         NRF24L01+      |
-| 10              | 	53     | 	CSN/CS        | 	              NRF24L01+ |
-| 13              | 	52     | 	SCK           | 	              NRF24L01+ |
-| 11              | 	51     | 	MOSI          | 	              NRF24L01+ |
-| 12              | 	50     | 	MISO          | 	              NRF24L01+ |
-| 2               | 	2      | 	IRQ           | 	              NRF24L01+ |
-| A4              | 20 (SDA) | SDA             | HTU21D                    |
-| A5              | 21 (SCL) | SCL             | HTU21D                    |
-| 3.3V            | 3.3V     | 3.3V            | HTU21D                    |
-| GND             | 	GND    | 	GND           | 	 HTU21D                 |
+The following is just very simple but should tell you what needs to be hooked up where. Bothe the radio, and thermo- and hygrometer are 3.3V. Therefore, supplying the correct voltage will keep your boards from breaking :). 
+| Pro Mini / Nano | Mega     | Auxillary pin | Auxillary board |
+|-----------------+----------+---------------+-----------------|
+| GND             | GND      | GND           | NRF24L01+       |
+| RTFM!           | 3.3V     | VCC           | NRF24L01+       |
+| 9               | 49       | CE            | NRF24L01+       |
+| 10              | 53       | CSN/CS        | NRF24L01+       |
+| 13              | 52       | SCK           | NRF24L01+       |
+| 11              | 51       | MOSI          | NRF24L01+       |
+| 12              | 50       | MISO          | NRF24L01+       |
+| 2               | 2        | IRQ           | NRF24L01+       |
+| A4              | 20 (SDA) | SDA           | HTU21D          |
+| A5              | 21 (SCL) | SCL           | HTU21D          |
+| 3.3V            | 3.3V     | 3.3V          | HTU21D          |
+| GND             | GND      | GND           | HTU21D          |
 
 * Acknowledgements
   - Arduino
