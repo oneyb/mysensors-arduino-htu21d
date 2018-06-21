@@ -15,11 +15,11 @@ See:
   - get everything wired up
   - install platformio and any possible dependencies
     - consider this ansible playbook: https://github.com/oneyb/rpi-ap-ha/blob/master/install-platformio.yaml
-    - or make sure it works with the proper required packages
+    - or make sure it works with the proper required packages. In the cloned directory:
       - ~virtualenv test && source test/bin/activate && pip install -r pip-requirements.txt~
-  - Compile and upload firmware (assuming you have the [[https://docs.platformio.org/en/latest/faq.html#faq-udev-rules][udev rules]] set up and a USB plugged in with an upload_port of ~/dev/ttyACM0~):
+  - Compile and upload firmware (assuming you have the [[https://docs.platformio.org/en/latest/faq.html#faq-udev-rules][udev rules]] set up and a USB plugged in with an upload_port of ~/dev/ttyACM0~, otherwise adjust [[file:platformio.ini][platformio.ini]]):
     - ~pio run -t upload~
-  - Check the output of your sensor on you MySensors gateway+controller
+  - Check the output of your sensor on your MySensors gateway+controller
   - Be happy if it works. Accept the challenge if it doesn't ;).
 
 * Parts list
@@ -56,8 +56,8 @@ The following is just very simple but should tell you what needs to be hooked up
   
 *If I missed something, thank you for the kind reminder.*
 * Planned improvements
-  - Decrease power consumption by employing an Arduino mini pro
-  - make Fritzing wiring diagram
-  - measure power usage
-  - have code recognize and adjust pin numbers according to board
+  - [ ] Decrease power consumption by employing an Arduino mini pro
+  - [ ] make Fritzing wiring diagram
+  - [ ] measure power usage
+  - [X] have code recognize and adjust pin numbers according to board
     
