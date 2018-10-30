@@ -56,8 +56,8 @@ The following is just very simple but should tell you what needs to be hooked up
   
 *If I missed something, thank you for the kind reminder.*
 * Planned improvements
-  - [ ] Decrease power consumption by employing an Arduino mini pro
+  - [X] Decrease power consumption by employing an Arduino mini pro
   - [ ] make Fritzing wiring diagram
-  - [ ] measure power usage
+  - [X] measure power usage
   - [X] have code recognize and adjust pin numbers according to board
     

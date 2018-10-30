@@ -25,10 +25,12 @@
 * nRF24L01+ spec - https://www.sparkfun.com/datasheets/Wireless/Nordic/nRF24L01P_Product_Specification_1_0.pdf
 * HTU21D 
 Hardware Connections (Breakoutboard to Arduino):
- -VCC = 3.3V
- -GND = GND
- -SDA = SDA
- -SCL = SCL
+| HTU21D |  Mega | Pro Mini |   
+|--------|-------|----------|
+|  VCC   |  3.3  | 3.3V     |
+|  GND   |  GND  | GND      |
+|  SDA   |  SDA  | A4       |
+|  SCL   |  SCL  | A5       |
 
 System Clock  = 8MHz
 
@@ -36,7 +38,7 @@ System Clock  = 8MHz
 
 // Enable debug prints to serial monitor
 #define MY_DEBUG
-// #define DEBUG_SENSORS 1
+#define DEBUG_SENSORS 
 
 #define MY_RADIO_NRF24
 //#define MY_RADIO_RFM69
@@ -46,15 +48,15 @@ System Clock  = 8MHz
  * creating an instance of the Mysensors class. Other defaults will include
  * transmitting on channel 76 with a data rate of 250kbps.
  */
-
-// #define MY_RF24_CE_PIN 9
-// #define MY_RF24_CS_PIN 10
-
-// #define MY_RF24_CHANNEL 100
-// For Mega
+#if defined(ARDUINO_AVR_MEGA2560)
 #define MY_RF24_CE_PIN 49
 #define MY_RF24_CS_PIN 53
-
+#elif defined(ARDUINO_AVR_PRO)
+#define MY_RF24_CE_PIN 9
+#define MY_RF24_CS_PIN 10
+#else
+#error Unsupported hardware
+#endif
 
 //#include <SPI.h>
 #include <MySensors.h>
@@ -66,8 +68,9 @@ System Clock  = 8MHz
 // FORCE_TRANSMIT_INTERVAL, this number of times of wakeup, the sensor is
 
 #define FORCE_TRANSMIT_INTERVAL 3
-#define SLEEP_TIME 600000
+// #define SLEEP_TIME 30000
 // #define SLEEP_TIME 5000
+#define SLEEP_TIME 86400000
 
 #define CHILD_ID_HUMIDITY 0
 #define CHILD_ID_TEMP 1
@@ -99,7 +102,8 @@ boolean receivedConfig = false;
 boolean metric = true;
 uint8_t loopCount = 0;
 uint8_t clockSwitchCount = 0;
-
+// string device_id = 8900;
+// string device_version = 0.1;
 
 
 /**********************************/
@@ -116,24 +120,24 @@ void setup()
 
 void presentation()
 {
-   // Send the sketch version information to the gateway and Controller
-   sendSketchInfo("mega-htu21d", "1.0");
-   // Register all sensors to gateway (they will be created as child devices)
-   present(CHILD_ID_VOLTAGE, S_MULTIMETER);
-   present(CHILD_ID_HUMIDITY, S_HUM);
-   present(CHILD_ID_TEMP, S_TEMP);
-   metric = getControllerConfig().isMetric;
+  // Send the sketch version information to the gateway and Controller
+  sendSketchInfo("promini-htu21d_hourly_01", "1.0");
+  // sendSketchInfo(device_id, device_version);
+  // Register all sensors to gateway (they will be created as child devices)
+  present(CHILD_ID_VOLTAGE, S_MULTIMETER);
+  present(CHILD_ID_HUMIDITY, S_HUM);
+  present(CHILD_ID_TEMP, S_TEMP);
+  metric = getControllerConfig().isMetric;
 }
 
 
 void loop()
 {
 
-  bool forceTransmit;
+  bool forceTransmit = true;
+  // bool forceTransmit = false;
 
   loopCount++;
-  // forceTransmit = false;
-  forceTransmit = true;
   clockSwitchCount++;
 
   if (loopCount > FORCE_TRANSMIT_INTERVAL)
@@ -257,7 +261,7 @@ uint16_t measureBattery(bool force)
   {
     send(msgVolt.set(thisVcc, 1));
     lastVcc = thisVcc;
-    #if DEBUG_SENSORS
+    #ifdef DEBUG_SENSORS
     Serial.print("Battery voltage = ");
     Serial.println(thisVcc);
     Serial.println('\r');
@@ -292,7 +296,7 @@ uint16_t readVcc()
   uint8_t high = ADCH; // unlocks both
   long result = (high<<8) | low;
   result = 1125300L / result; // Calculate Vcc (in mV); 1125300 = 1.1*1023*1000
-  #if DEBUG_SENSORS
+  #ifdef DEBUG_SENSORS
   Serial.print("Read Vcc = ");
   Serial.println(result);
   Serial.println('\r');
